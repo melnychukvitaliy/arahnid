@@ -10,7 +10,7 @@ import (
 
 func main() {
         raspiAdaptor := raspi.NewAdaptor()
-        servo := gpio.NewServoDriver(raspiAdaptor, "4")
+        servo := gpio.NewServoDriver(raspiAdaptor, "7")
 
         work := func() {
                 gobot.Every(1*time.Second, func() {
