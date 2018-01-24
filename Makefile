@@ -1,6 +1,6 @@
-HOST=192.168.1.1
+HOST=192.168.7.105
 
-all: clean build run
+all: clean build deploy run
 
 build:
 	go get gobot.io/x/gobot
@@ -10,10 +10,10 @@ build:
 	GOOS=linux GOARCH=arm GOARM=5 go build -o arahnid
 
 run:
-	#run over ssh
+	ssh -t pi@$(HOST) "./arahnid/arahnid"
 
 clean:
 	rm ./arahnid
 
 deploy:
-	scp ./arahnid pi@$(HOST) /home/pi
+	scp ./arahnid pi@$(HOST):/home/pi/arahnid

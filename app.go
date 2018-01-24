@@ -1,7 +1,6 @@
 package main
 
 import (
-        "time"
         "gobot.io/x/gobot"
         "gobot.io/x/gobot/drivers/gpio"
         "gobot.io/x/gobot/platforms/raspi"
@@ -12,9 +11,7 @@ func main() {
         led := gpio.NewLedDriver(r, "7")
 
         work := func() {
-                gobot.Every(1*time.Second, func() {
-                        led.Toggle()
-                })
+                r.ServoWrite("7", 10)
         }
 
         robot := gobot.NewRobot("blinkBot",
