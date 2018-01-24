@@ -1,24 +1,29 @@
 package main
 
 import (
+        "fmt"
+        "time"
         "gobot.io/x/gobot"
         "gobot.io/x/gobot/drivers/gpio"
         "gobot.io/x/gobot/platforms/raspi"
 )
 
 func main() {
-        r := raspi.NewAdaptor()
-        led := gpio.NewLedDriver(r, "7")
+        raspiAdaptor := raspi.NewAdaptor()
+        servo := gpio.NewServoDriver(raspiAdaptor, "4")
 
         work := func() {
-                r.ServoWrite("7", 10)
+                gobot.Every(1*time.Second, func() {
+                        i := uint8(gobot.Rand(180))
+                        fmt.Println("Turning", i)
+                        servo.Move(i)
+                })
         }
 
-        robot := gobot.NewRobot("blinkBot",
-                []gobot.Connection{r},
-                []gobot.Device{led},
+        robot := gobot.NewRobot("servoBot",
+                []gobot.Connection{raspiAdaptor},
+                []gobot.Device{servo},
                 work,
         )
-
         robot.Start()
 }
