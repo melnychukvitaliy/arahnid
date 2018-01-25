@@ -13,7 +13,7 @@ run:
 	ssh -t pi@$(HOST) "./arahnid/arahnid"
 
 clean:
-	rm ./arahnid
+	rm -f ./arahnid
 
 deploy:
 	scp ./arahnid pi@$(HOST):/home/pi/arahnid
