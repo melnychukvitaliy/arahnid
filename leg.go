@@ -42,16 +42,21 @@ func toDeg(a float64) (ad uint8) {
 func (leg Leg) EvaluateAngles(position Position) (angles Angles) {
 	pointHeigthDiff := math.Abs(leg.params.heigth - position.y)
 	a := leg.params.hipLength
-	b := math.Sqrt(math.Pow(pointHeigthDiff, 2) + math.Pow(position.x, 2))
+	b := math.Hypot(pointHeigthDiff, position.x)
 	c := leg.params.skinLength
 
 	cosA := (a*a + c*c - b*b) / (2 * a * c)
 	cosB := (a*a + b*b - c*c) / (2 * a * b)
-	cosP := (pointHeigthDiff / b)
-	pAngle := toDeg(math.Acos(cosP))
-
 	skinAngle := 180 - toDeg(math.Acos(cosA))
-	hipAngle := toDeg(math.Acos(cosB)) + pAngle
-
+	var hipAngle uint8;
+	if leg.params.heigth < position.y {
+		cosP := (position.x / b)
+		pAngle := toDeg(math.Acos(cosP))
+		hipAngle = toDeg(math.Acos(cosB)) + pAngle + 90
+	} else {
+		cosP := (pointHeigthDiff / b)
+		pAngle := toDeg(math.Acos(cosP))
+		hipAngle = toDeg(math.Acos(cosB)) + pAngle
+	}
 	return Angles{hipAngle, skinAngle, 180}
 }

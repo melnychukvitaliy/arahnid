@@ -13,7 +13,7 @@ func main() {
 	hipServo := gpio.NewServoDriver(firmataAdaptor, "10")
 
 	work := func() {
-		params := LegParams{6, 9, 12}
+		params := LegParams{10, 9, 12}
 		testLeg := Leg{Angles{180, 180, 90}, params}
 		angles := testLeg.EvaluateAngles(Position{10, 5, 0})
 		fmt.Printf("I'm going to set up these angles %+v\n",angles )
